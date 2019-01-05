@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func index(w http.ResponseWriter, r *http.Request) {
+func homeHandler(w http.ResponseWriter, r *http.Request) {
 	templates, err := template.ParseFiles("../templates/home.html")
 	if err != nil {
 		log.Fatal(err.Error())
@@ -19,7 +19,8 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	mux := http.DefaultServeMux
-	mux.HandleFunc("/", index)
+	mux.HandleFunc("/", homeHandler)
+	mux.Handle("/static/css/", http.StripPrefix("/static/css/", http.FileServer(http.Dir("../static/css"))))
 	server := http.Server{
 		Addr:    "0.0.0.0:80",
 		Handler: mux,
