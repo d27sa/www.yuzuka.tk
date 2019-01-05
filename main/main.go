@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 )
 
 func index(w http.ResponseWriter, r *http.Request) {
+	templates, _ := template.ParseFiles("templates/home.html")
 	path := r.URL.Path[1:]
-	fmt.Fprintf(w, "Hello, world!\nThe path is %s.", path)
+	templates.ExecuteTemplate(w, "home", fmt.Sprintf("Hello, world!\nThe path is %s.", path))
 }
 
 func main() {
