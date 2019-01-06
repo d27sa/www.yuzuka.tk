@@ -1,0 +1,25 @@
+{{ define "content" }}
+
+
+{{ if not . }}
+{{ template "form" }}
+{{ else }}
+{{ template "response" . }}
+{{ end }}
+{{ end }}
+
+
+{{ define "form" }}
+<form action="register" method="POST">
+        <p>Username: <input type="text" name="username" /></p>
+        <p>Email: <input type="text" name="email" /></p>
+        <p>Password: <input type="password" name="password" /></p>
+        <p><input type="submit" /></p>
+    </form>
+{{ end }}
+
+{{ define "response" }}
+<p>Successfully Registered!</p>
+<p>Username: {{ .Username }}</p>
+<p>Email: {{ .Email }}</p>
+{{ end }}
