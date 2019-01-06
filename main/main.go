@@ -9,7 +9,6 @@ import (
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("index")
 	templates := template.Must(template.ParseFiles("../templates/layout.html", "../templates/home.html"))
 	path := r.URL.Path[1:]
 	templates.ExecuteTemplate(w, "layout", fmt.Sprintf("Hello, world!\nThe path is %s.", path))
