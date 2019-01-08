@@ -1,12 +1,11 @@
 {{ define "content" }}
-
-
 {{ if not . }}
 {{ template "form" }}
 {{ else }}
 {{ template "response" . }}
 {{ end }}
 {{ end }}
+
 
 
 {{ define "form" }}
@@ -17,6 +16,8 @@
         <p><input type="submit" /></p>
     </form>
 {{ end }}
+
+
 
 {{ define "response" }}
 <p>Successfully Registered!</p>

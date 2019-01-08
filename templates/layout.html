@@ -1,13 +1,19 @@
-{{ define "layout" }}
+{{ define "head" }}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <title>Home - Yuzuka</title>
-    <link href="/static/css/layout.css" rel="stylesheet" type="text/css" />
+    <title>{{ .Title }} - Yuzuka&Kousuke Shimotsuki</title>
+    {{ range .CSS }}
+    <link href="/static/css/{{ . }}.css" rel="stylesheet" type="text/css" />
+    {{ end }}
 </head>
+{{ end }}
 
+
+
+{{ define "layout" }}
 <body>
     <div id="wrapper">
         <nav>
@@ -19,10 +25,11 @@
             </ul>
         </nav>
         <div id="content">
-                {{ template "content" . }}
+            {{ template "content" . }}
         </div>
         <footer>
-            <p><hr />&copy;2019 Shimotsuki Yuzuka. All Rights Reserved.</p>
+            <hr />
+            <p>&copy;2019 Yuzuka Shimotsuki and Kousuke Shimotsuki. All Rights Reserved.</p>
         </footer>
     </div>
 </body>
