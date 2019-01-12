@@ -9,6 +9,7 @@ import (
 
 // handleIndex handles requests with root path
 func handleIndex(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in handleIndex")
 	templates := parseTemplates("layout.html", "home.html")
 	writeHead(templates, w, "Home", "layout")
 	templates.ExecuteTemplate(w, "layout", fmt.Sprintf("Hello, world!\nThe path is %s.", r.URL.Path))
