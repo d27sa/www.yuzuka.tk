@@ -1,0 +1,41 @@
+form{
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+    border-spacing: 5px 10px;
+    caption-side: bottom;
+    
+}
+form p{
+    display: table-row;
+    padding-top: 10px;
+    
+}
+form p:last-child {
+    display: table-caption;
+    text-align: center;
+    padding-top: 0%;
+    margin-top: 0%;
+}
+
+form p input{
+    display: table-cell;
+    vertical-align: middle;
+    
+}
+
+
+
+
+
+form p span{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+}
+
+h1{
+    text-align: center;
+    font-size: 26px;
+    margin: 12px,0px,12px,0px;
+}

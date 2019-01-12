@@ -9,10 +9,11 @@
 
 
 {{ define "form" }}
+<h1>Register as a new user</h1>
 <form action="register" method="POST">
-        <p>Username: <input type="text" name="username" /></p>
-        <p>Email: <input type="text" name="email" /></p>
-        <p>Password: <input type="password" name="password" /></p>
+        <p><span>Username:</span><input type="text" name="username" /></p>
+        <p><span>Email:</span><input type="text" name="email" /></p>
+        <p><span>Password:</span><input type="password" name="password" /></p>
         <p><input type="submit" /></p>
     </form>
 {{ end }}

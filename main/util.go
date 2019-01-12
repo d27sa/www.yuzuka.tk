@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"net/http"
+	"path/filepath"
 )
 
 // head represents the head part of a html5 file
@@ -17,7 +18,7 @@ func writeHead(t *template.Template, w http.ResponseWriter, title string, css ..
 
 func parseTemplates(filenames ...string) *template.Template {
 	for i := range filenames {
-		filenames[i] = "../templates/" + filenames[i]
+		filenames[i] = filepath.Join(RootPath, "templates", filenames[i])
 	}
 	return template.Must(template.ParseFiles(filenames...))
 }

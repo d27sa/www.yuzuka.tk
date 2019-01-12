@@ -7,18 +7,17 @@ import (
 	"github.com/d27sa/www.yuzuka.tk/model"
 )
 
-// indexHandler handles requests with root path
-func indexHandler(w http.ResponseWriter, r *http.Request) {
+// handleIndex handles requests with root path
+func handleIndex(w http.ResponseWriter, r *http.Request) {
 	templates := parseTemplates("layout.html", "home.html")
-	path := r.URL.Path[1:]
 	writeHead(templates, w, "Home", "layout")
-	templates.ExecuteTemplate(w, "layout", fmt.Sprintf("Hello, world!\nThe path is %s.", path))
+	templates.ExecuteTemplate(w, "layout", fmt.Sprintf("Hello, world!\nThe path is %s.", r.URL.Path))
 }
 
-// registerHandler handles requests of register
-func registerHandler(w http.ResponseWriter, r *http.Request) {
+// handleRegister handles requests of register
+func handleRegister(w http.ResponseWriter, r *http.Request) {
 	templates := parseTemplates("layout.html", "register.html")
-	writeHead(templates, w, "Register", "layout")
+	writeHead(templates, w, "Register", "layout", "register")
 	if r.Method == "POST" {
 		username := r.FormValue("username")
 		email := r.FormValue("email")

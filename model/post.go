@@ -6,10 +6,11 @@ import "time"
 type Post struct {
 	ID       int
 	Title    string
-	Author   string
+	Author   *User
 	CreateAt time.Time
+	Category *Category
 	Content  []byte
-	Comments []Comment
+	Comments []*Comment
 }
 
 // Comment represents a comment of a post
@@ -20,3 +21,6 @@ type Comment struct {
 	Content  []byte
 	PostID   int
 }
+
+// Category represents blog post category
+type Category string

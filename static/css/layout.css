@@ -19,15 +19,28 @@ div#wrapper{
 }
 
 div#content{
-    padding-left: 3px;
-    padding-right: 3px;
+    width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+nav {
+    background-color: blue;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 nav ul{
     margin: 0%;
     padding: 0%;
-    background-color: blue;
-    padding-left: 3px;
+}
+
+nav ul:first-child{
+    float: right;
+}
+
+nav ul:first-child li:last-child{
+    padding-right: 0%;
 }
 
 nav ul li{
@@ -55,4 +68,5 @@ footer{
     text-align: center;
     font-size: 14px;
     margin: 0%;
+    clear: both;
 }
