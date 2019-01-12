@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -16,6 +18,7 @@ const ROOT = "www.yuzuka.tk"
 func init() {
 	wd, _ := os.Getwd()
 	RootPath = wd[:(strings.Index(wd, ROOT) + len(ROOT))]
+	fmt.Println(RootPath)
 }
 
 func registerHandlers() {
@@ -30,5 +33,6 @@ func main() {
 	server := http.Server{
 		Addr: ":80",
 	}
-	server.ListenAndServe()
+	fmt.Println("Listening at port 80 ...")
+	log.Fatal(server.ListenAndServe())
 }
