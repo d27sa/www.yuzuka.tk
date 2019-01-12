@@ -14,21 +14,22 @@
 
 
 {{ define "layout" }}
+
 <body>
     <div id="wrapper">
         <nav>
-                <ul>
-                        <li><a href="/register">REGISTER</a></li>
-                        <li><a href="/login">LOGIN</a></li>
-                </ul>
-            <ul>
-                <li><a href="/">HOME</a></li>
-                <li><a href="/blog/">BLOG</a></li>
-                <li><a href="/app/">APP</a></li>
-                <li><a href="/about/">ABOUT</a></li>
-                
-            </ul>
             
+            <ul>
+                <li><a href="/register">REGISTER</a></li>
+                <li><a href="/login">LOGIN</a></li>
+            </ul>
+            <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/blog/">BLOG</a></li>
+                    <li><a href="/app/">APP</a></li>
+                    <li><a href="/about/">ABOUT</a></li>
+                </ul>
+
         </nav>
         <div id="content">
             {{ template "content" . }}

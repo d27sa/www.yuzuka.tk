@@ -28,3 +28,9 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 	}
 	templates.ExecuteTemplate(w, "layout", nil)
 }
+
+func handleAbout(w http.ResponseWriter, r *http.Request) {
+	templates := parseTemplates("layout.html", "about.html")
+	writeHead(templates, w, "About", "layout", "about")
+	templates.ExecuteTemplate(w, "layout", nil)
+}

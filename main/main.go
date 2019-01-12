@@ -21,6 +21,7 @@ func init() {
 func registerHandlers() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/register", handleRegister)
+	http.HandleFunc("/about/", handleAbout)
 	http.Handle("/static/css/", http.StripPrefix("/static/css/", http.FileServer(http.Dir(filepath.Join(RootPath, "static/css")))))
 }
 
