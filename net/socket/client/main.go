@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	tcpAddr, err := net.ResolveTCPAddr("tcp", "www.yuzuka.tk:80")
+	tcpAddr, err := net.ResolveTCPAddr("tcp", "www.yuzuka.tk:8080")
 	if err != nil {
 		log.Fatal(err)
 	}
