@@ -21,6 +21,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		fmt.Println("Reading...")
 		data, err := ioutil.ReadAll(conn)
 		if err != nil {
 			log.Fatal(err)
@@ -30,5 +31,6 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+
 	}
 }
