@@ -1,0 +1,28 @@
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net"
+)
+
+func main() {
+	tcpAddr, err := net.ResolveTCPAddr("tcp", ":80")
+	if err != nil {
+		log.Fatal(err)
+	}
+	listener, err := net.ListenTCP("tcp", tcpAddr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	conn, err := listener.AcceptTCP()
+	if err != nil {
+		log.Fatal(err)
+	}
+	data, err := ioutil.ReadAll(conn)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(data))
+}

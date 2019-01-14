@@ -7,3 +7,6 @@ h1{
     border-bottom: gray solid 1px;
 }
 
+address{
+    text-align: right;
+}

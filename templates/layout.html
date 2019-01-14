@@ -39,7 +39,12 @@
             <p>&copy;2019 Yuzuka Shimotsuki and Kousuke Shimotsuki. All Rights Reserved.</p>
         </footer>
     </div>
-</body>
+    {{ end }}
 
+{{ define "script" }}
+{{ range . }}
+<script src="/static/js/{{ . }}.js"></script>
+{{ end }}
+</body>
 </html>
 {{ end }}

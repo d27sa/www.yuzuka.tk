@@ -1,0 +1,11 @@
+{{ define "content" }}
+<h1>APPLICATIONS</h1>
+            <div id="applications">
+                {{ range . }}
+                <div class="app">
+                        <h2><a href="{{ .URL }}">{{ .Name }}</a></h2>
+                        <p>{{ .Intro }}</p>
+                    </div>
+                {{ end }}
+</div>
+{{ end }}

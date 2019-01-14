@@ -1,9 +1,15 @@
 div.app{
-    height: 200px;
+    height: 170px;
+    padding: 15px;
 }
 
 div.app h2{
-    margin: 0%;
+    margin: 0px 0px 12px 0px;
+    text-align: center;
+}
+
+div.app h2 a{
+    text-decoration: none;
 }
 
 h1{

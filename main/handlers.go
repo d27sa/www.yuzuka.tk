@@ -9,10 +9,10 @@ import (
 
 // handleIndex handles requests with root path
 func handleIndex(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("in handleIndex")
 	templates := parseTemplates("layout.html", "home.html")
 	writeHead(templates, w, "Home", "layout")
 	templates.ExecuteTemplate(w, "layout", fmt.Sprintf("Hello, world!\nThe path is %s.", r.URL.Path))
+	writeScript(templates, w)
 }
 
 // handleRegister handles requests of register
@@ -28,10 +28,23 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	templates.ExecuteTemplate(w, "layout", nil)
+	writeScript(templates, w)
 }
 
 func handleAbout(w http.ResponseWriter, r *http.Request) {
 	templates := parseTemplates("layout.html", "about.html")
 	writeHead(templates, w, "About", "layout", "about")
 	templates.ExecuteTemplate(w, "layout", nil)
+	writeScript(templates, w)
+}
+
+func handleApp(w http.ResponseWriter, r *http.Request) {
+	apps := make([]model.App, 6)
+	for i := 0; i < 6; i++ {
+		apps[i] = model.NewApp(i+1, "Hello", "wow <em>wow</em> wow what's this?!", "#")
+	}
+	templates := parseTemplates("layout.html", "app.html")
+	writeHead(templates, w, "APP", "layout", "app")
+	templates.ExecuteTemplate(w, "layout", apps)
+	writeScript(templates, w, "app")
 }

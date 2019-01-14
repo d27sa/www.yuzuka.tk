@@ -4,28 +4,34 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"path/filepath"
-	"strings"
 )
 
 // RootPath represent the full path of the website root
 var RootPath string
 
-// ROOT represents the directory name of the website root
-const ROOT = "www.yuzuka.tk"
+const (
+	// ROOT represents the directory name of the website root
+	ROOT = "www.yuzuka.tk"
+
+	// AllowRegister means whether the website allow to register
+	AllowRegister = true
+)
 
 func init() {
-	wd, _ := os.Getwd()
-	RootPath = wd[:(strings.Index(wd, ROOT) + len(ROOT))]
-	fmt.Println(RootPath)
+	var err error
+	RootPath, err = getRootPath(ROOT)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func registerHandlers() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/register", handleRegister)
 	http.HandleFunc("/about/", handleAbout)
-	http.Handle("/static/css/", http.StripPrefix("/static/css/", http.FileServer(http.Dir(filepath.Join(RootPath, "static/css")))))
+	http.HandleFunc("/app/", handleApp)
+	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir(filepath.Join(RootPath, "static")))))
 }
 
 func main() {
