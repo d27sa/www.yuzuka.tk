@@ -17,10 +17,12 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("Writing...")
 	_, err = conn.Write([]byte("Hello!\n"))
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Written.")
 	resp, err := ioutil.ReadAll(conn)
 	if err != nil {
 		log.Fatal(err)
