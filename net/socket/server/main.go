@@ -16,13 +16,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	conn, err := listener.AcceptTCP()
-	if err != nil {
-		log.Fatal(err)
+	for {
+		conn, err := listener.AcceptTCP()
+		if err != nil {
+			log.Fatal(err)
+		}
+		data, err := ioutil.ReadAll(conn)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(string(data))
 	}
-	data, err := ioutil.ReadAll(conn)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(string(data))
 }

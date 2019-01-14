@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	tcpAddr, err := net.ResolveTCPAddr("tcp", "www.yuzuka.tk:8080")
+	tcpAddr, err := net.ResolveTCPAddr("tcp", "www.yuzuka.tk:80")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -15,5 +15,15 @@ func main() {
 		log.Fatal(err)
 	}
 	defer conn.Close()
-	conn.Write([]byte("Hello, world!\n"))
+	_, err = conn.Write([]byte("Hello!\n"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = conn.Write([]byte("Hello!\n"))
+
+	// resp, err := ioutil.ReadAll(conn)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// fmt.Println(string(resp))
 }
