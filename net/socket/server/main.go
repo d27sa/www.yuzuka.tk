@@ -20,16 +20,17 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("Reading...")
 		data := make([]byte, 1024)
-		n, err := conn.Read(data)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println(string(data[:n]))
-		_, err = conn.Write(data[:n])
-		if err != nil {
-			log.Fatal(err)
+		for {
+			n, err := conn.Read(data)
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Println(string(data[:n]))
+			_, err = conn.Write(data[:n])
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 
 	}

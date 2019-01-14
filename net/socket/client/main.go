@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net"
 )
@@ -23,14 +22,15 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("Written.")
-	resp, err := ioutil.ReadAll(conn)
+	resp := make([]byte, 1024)
+	n, err := conn.Read(resp)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(resp))
-	// _, err = conn.Write([]byte("Hello!\n"))
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	fmt.Println(string(resp[:n]))
+	_, err = conn.Write([]byte("Hello!\n"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
