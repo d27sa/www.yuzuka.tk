@@ -26,5 +26,9 @@ func main() {
 			log.Fatal(err)
 		}
 		fmt.Println(string(data))
+		_, err = conn.Write([]byte("Hello~\n"))
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
