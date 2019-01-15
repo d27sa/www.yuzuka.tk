@@ -39,6 +39,8 @@ func main() {
 	server := http.Server{
 		Addr: ":80",
 	}
+
 	fmt.Println("Listening at port 80 ...")
-	log.Fatal(server.ListenAndServe())
+	// log.Fatal(server.ListenAndServe())
+	log.Fatal(server.ListenAndServeTLS(filepath.Join(RootPath, "static/certificate/fullchain.cer"), filepath.Join(RootPath, "static/certificate/www.yuzuka.tk.key")))
 }
