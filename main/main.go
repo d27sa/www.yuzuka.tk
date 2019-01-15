@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -22,7 +21,7 @@ func init() {
 	var err error
 	RootPath, err = getRootPath(ROOT)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 }
 
@@ -34,13 +33,28 @@ func registerHandlers() {
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir(filepath.Join(RootPath, "static")))))
 }
 
-func main() {
-	registerHandlers()
+func startHTTPServer(errCh chan<- error) {
+	server := http.Server{
+		Addr: ":80",
+	}
+	log.Println("HTTP server started (listening on port 80).")
+	errCh <- server.ListenAndServe()
+}
+
+func startHTTPSServer(errCh chan<- error) {
 	server := http.Server{
 		Addr: ":443",
 	}
+	log.Println("HTTPS server started (listening on port 443).")
+	errCh <- server.ListenAndServeTLS(filepath.Join(RootPath, "static/certificate/fullchain.cer"), filepath.Join(RootPath, "static/certificate/www.yuzuka.tk.key"))
+}
 
-	fmt.Println("Listening at port 443 ...")
-	// log.Fatal(server.ListenAndServe())
-	log.Fatal(server.ListenAndServeTLS(filepath.Join(RootPath, "static/certificate/fullchain.cer"), filepath.Join(RootPath, "static/certificate/www.yuzuka.tk.key")))
+func main() {
+	registerHandlers()
+	errCh := make(chan error)
+	go startHTTPServer(errCh)
+	go startHTTPSServer(errCh)
+	log.Println(<-errCh)
+	log.Println(<-errCh)
+	log.Fatal("Server stopped with errors.")
 }
