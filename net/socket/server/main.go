@@ -15,8 +15,10 @@ func handleTCPConn(conn *net.TCPConn) error {
 		if err != nil && err != io.EOF {
 			return err
 		}
-		fmt.Println("Received message: ", string(data[:n]))
-		_, err = conn.Write(data[:n])
+		if n > 0 {
+			fmt.Println("Received message: ", string(data[:n]))
+			_, err = conn.Write(data[:n])
+		}
 		if err != nil {
 			if err == io.EOF {
 				return nil
