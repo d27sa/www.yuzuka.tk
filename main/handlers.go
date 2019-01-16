@@ -66,18 +66,27 @@ func handleAppChatroom(w http.ResponseWriter, r *http.Request) {
 	writeScript(templates, w, "chatroom")
 }
 
+func chatroomHandleOneClient(conn *websocket.Conn) {
+	defer conn.Close()
+	for {
+		msgType, p, err := conn.ReadMessage()
+		if err != nil {
+			log.Println(err)
+			break
+		}
+		err = conn.WriteMessage(msgType, p)
+		if err != nil {
+			log.Println(err)
+			break
+		}
+	}
+}
+
 func handleAppChatroomWs(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
+		return
 	}
-	defer conn.Close()
-	msgType, p, err := conn.ReadMessage()
-	if err != nil {
-		log.Println(err)
-	}
-	err = conn.WriteMessage(msgType, p)
-	if err != nil {
-		log.Println(err)
-	}
+	go chatroomHandleOneClient(conn)
 }
