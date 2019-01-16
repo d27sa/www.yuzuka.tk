@@ -1,23 +1,29 @@
-var msgDiv = document.getElementById('msg');
+var form=document.getElementById('form');
+var msg=document.getElementById('msg');
+form.onsubmit=connectWebSocket;
+
+
 function connectWebSocket() {
     if ('WebSocket' in window) {
-        var ws = new WebSocket('ws://www.yuzuka.tk:8080/app/chatroom');
+        var ws = new WebSocket('ws://www.yuzuka.tk/app/chatroom/ws');
         ws.onopen = function () {
-            var p = new HTMLParagraphElement();
-            p.textContent = "Connection succeeded.";
-            msgDiv.appendChild(p);
-            ws.send('Hello!');
+            var p = document.createElement('p');
+            var t = document.createTextNode('Connection succeeded.');
+            p.appendChild(t);
+            document.appendChild(p);
+            ws.send(msg.getAttribute('value'));
         }
         ws.onmessage = function (e) {
-            var msg = e.data;
-            var p = new HTMLParagraphElement();
-            p.textContent = msg;
-            msgDiv.appendChild(p);
+            var p = document.createElement('p');
+            var t = document.createTextNode(String(e.data));
+            p.appendChild(t);
+            document.appendChild(p);
         }
         ws.onclose = function () {
-            var p = new HTMLParagraphElement();
-            p.textContent = "Connection closed.";
-            msgDiv.appendChild(p);
+            var p = document.createElement('p');
+            var t = document.createTextNode('Connection closed.')
+            p.appendChild(t);
+            document.appendChild(p);
         }
 
     } else {

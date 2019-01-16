@@ -30,6 +30,8 @@ func registerHandlers() {
 	http.HandleFunc("/register", handleRegister)
 	http.HandleFunc("/about/", handleAbout)
 	http.HandleFunc("/app/", handleApp)
+	http.HandleFunc("/app/chatroom/", handleAppChatroom)
+	http.HandleFunc("/app/chatroom/ws", handleAppChatroomWs)
 	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir(filepath.Join(RootPath, "static")))))
 }
 
