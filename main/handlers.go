@@ -76,5 +76,8 @@ func handleAppChatroomWs(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	conn.WriteMessage(msgType, p)
+	err = conn.WriteMessage(msgType, p)
+	if err != nil {
+		log.Println(err)
+	}
 }

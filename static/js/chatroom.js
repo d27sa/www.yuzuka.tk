@@ -1,29 +1,30 @@
 var form=document.getElementById('form');
 var msg=document.getElementById('msg');
+var content=document.getElementById('content')
 form.onsubmit=connectWebSocket;
 
 
 function connectWebSocket() {
     if ('WebSocket' in window) {
-        var ws = new WebSocket('ws://www.yuzuka.tk/app/chatroom/ws');
+        var ws = new WebSocket('ws://'+document.location.host+'/app/chatroom/ws');
         ws.onopen = function () {
             var p = document.createElement('p');
             var t = document.createTextNode('Connection succeeded.');
             p.appendChild(t);
-            document.appendChild(p);
-            ws.send(msg.getAttribute('value'));
+            content.appendChild(p);
+            ws.send(msg.value);
         }
         ws.onmessage = function (e) {
             var p = document.createElement('p');
             var t = document.createTextNode(String(e.data));
             p.appendChild(t);
-            document.appendChild(p);
+            content.appendChild(p);
         }
         ws.onclose = function () {
             var p = document.createElement('p');
             var t = document.createTextNode('Connection closed.');
             p.appendChild(t);
-            document.appendChild(p);
+            content.appendChild(p);
         }
 
     } else {
