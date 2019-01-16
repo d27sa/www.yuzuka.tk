@@ -35,6 +35,6 @@ func handleWS(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/ws", handleWS)
+	http.HandleFunc("/app/chatroom", handleWS)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
