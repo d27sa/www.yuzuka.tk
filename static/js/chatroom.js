@@ -21,7 +21,7 @@ function connectWebSocket() {
         }
         ws.onclose = function () {
             var p = document.createElement('p');
-            var t = document.createTextNode('Connection closed.')
+            var t = document.createTextNode('Connection closed.');
             p.appendChild(t);
             document.appendChild(p);
         }
@@ -29,4 +29,5 @@ function connectWebSocket() {
     } else {
         alert("WebSocket not supported by browser.")
     }
+    return false;
 }
