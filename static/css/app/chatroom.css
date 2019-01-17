@@ -1,0 +1,29 @@
+h1{
+    text-align: center;
+    text-shadow: 3px 2px 3px #b9b8b8;
+}
+
+div#messages{
+    height: 550px;
+    overflow: auto;
+    border: 2px double pink;
+    padding: 5px 5px 5px 5px;
+    background-color: ivory;
+}
+
+form{
+    width: 859px;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form input:first-child{
+    width:800px;
+    margin-right: 5px;
+}
+
+
+form input:last-child{
+    width:50px;
+}

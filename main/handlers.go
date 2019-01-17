@@ -62,7 +62,7 @@ func handleApp(w http.ResponseWriter, r *http.Request) {
 
 func handleAppChatroom(w http.ResponseWriter, r *http.Request) {
 	templates := parseTemplates("layout.html", "app/chatroom.html")
-	writeHead(templates, w, "Chatroom", "layout")
+	writeHead(templates, w, "Chatroom", "layout", "app/chatroom")
 	templates.ExecuteTemplate(w, "layout", nil)
 	writeScript(templates, w, "chatroom")
 }
