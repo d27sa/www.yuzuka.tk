@@ -13,7 +13,8 @@ function sendMessage() {
 
 function connectWebSocket() {
     if ('WebSocket' in window) {
-        ws = new WebSocket('ws://' + document.location.host + '/app/chatroom/ws');
+        var scheme=document.location.protocol=='http'?'ws://':'wss://';
+        ws = new WebSocket(scheme + document.location.host + '/app/chatroom/ws');
         ws.onopen = function () {
             var p = document.createElement('p');
             var t = document.createTextNode('Connection succeeded.');
