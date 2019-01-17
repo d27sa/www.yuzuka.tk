@@ -50,7 +50,8 @@ func handleAbout(w http.ResponseWriter, r *http.Request) {
 
 func handleApp(w http.ResponseWriter, r *http.Request) {
 	apps := make([]model.App, 6)
-	for i := 0; i < 6; i++ {
+	apps[0] = model.NewApp(1, "Chatroom", "A simple chatroom.", "chatroom")
+	for i := 1; i < 6; i++ {
 		apps[i] = model.NewApp(i+1, "Hello", "wow <em>wow</em> wow what's this?!", "#")
 	}
 	templates := parseTemplates("layout.html", "app.html")
@@ -66,27 +67,11 @@ func handleAppChatroom(w http.ResponseWriter, r *http.Request) {
 	writeScript(templates, w, "chatroom")
 }
 
-func chatroomHandleOneClient(conn *websocket.Conn) {
-	defer conn.Close()
-	for {
-		msgType, p, err := conn.ReadMessage()
-		if err != nil {
-			log.Println(err)
-			break
-		}
-		err = conn.WriteMessage(msgType, p)
-		if err != nil {
-			log.Println(err)
-			break
-		}
-	}
-}
-
 func handleAppChatroomWs(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	go chatroomHandleOneClient(conn)
+	appChatroom.NewClient(conn)
 }

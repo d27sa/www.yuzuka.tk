@@ -12,9 +12,7 @@ function sendMessage() {
 
 
 function connectWebSocket() {
-    
     if ('WebSocket' in window) {
-        
         ws = new WebSocket('ws://' + document.location.host + '/app/chatroom/ws');
         ws.onopen = function () {
             var p = document.createElement('p');
@@ -35,13 +33,9 @@ function connectWebSocket() {
             p.appendChild(t);
             content.appendChild(p);
         }
-
     } else {
         alert("WebSocket not supported by browser.");
     }
-    
 }
-
-
-connectWebSocket();
+window.onload=connectWebSocket;
 form.onsubmit = sendMessage;

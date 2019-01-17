@@ -4,10 +4,14 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/d27sa/www.yuzuka.tk/app/chatroom"
 )
 
 // RootPath represent the full path of the website root
 var RootPath string
+
+var appChatroom *chatroom.Chatroom
 
 const (
 	// ROOT represents the directory name of the website root
@@ -23,6 +27,7 @@ func init() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	appChatroom = chatroom.New()
 }
 
 func registerHandlers() {
@@ -54,6 +59,7 @@ func startHTTPSServer(ch chan<- bool) {
 }
 
 func main() {
+	appChatroom.Run()
 	registerHandlers()
 	ch := make(chan bool)
 	defer close(ch)
