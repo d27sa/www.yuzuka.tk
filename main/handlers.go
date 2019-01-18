@@ -49,11 +49,6 @@ func handleAbout(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleApp(w http.ResponseWriter, r *http.Request) {
-	apps := make([]model.App, 6)
-	apps[0] = model.NewApp(1, "Chatroom", "A simple chatroom.", "chatroom")
-	for i := 1; i < 6; i++ {
-		apps[i] = model.NewApp(i+1, "Hello", "wow <em>wow</em> wow what's this?!", "#")
-	}
 	templates := parseTemplates("layout.html", "app.html")
 	writeHead(templates, w, "APP", "layout", "app")
 	templates.ExecuteTemplate(w, "layout", apps)

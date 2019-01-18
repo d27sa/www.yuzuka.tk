@@ -5,12 +5,18 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"github.com/d27sa/www.yuzuka.tk/model"
+
 	"github.com/d27sa/www.yuzuka.tk/app/chatroom"
 )
 
 // RootPath represent the full path of the website root
 var RootPath string
 
+// apps stores all available apps
+var apps []*model.App
+
+// appChatroom represents a running chatroom app
 var appChatroom *chatroom.Chatroom
 
 const (
@@ -21,15 +27,18 @@ const (
 	AllowRegister = true
 )
 
+// init does some initial work
 func init() {
 	var err error
 	RootPath, err = getRootPath(ROOT)
 	if err != nil {
 		log.Fatalln(err)
 	}
+	apps = append(apps, model.NewApp(1, "Chatroom", "A simple chatroom.", "chatroom"))
 	appChatroom = chatroom.New()
 }
 
+// registerHandlers binds handler functions to specified path
 func registerHandlers() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/register", handleRegister)
@@ -37,9 +46,11 @@ func registerHandlers() {
 	http.HandleFunc("/app/", handleApp)
 	http.HandleFunc("/app/chatroom/", handleAppChatroom)
 	http.HandleFunc("/app/chatroom/ws", handleAppChatroomWs)
-	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir(filepath.Join(RootPath, "static")))))
+	http.Handle("/static/css/", http.StripPrefix("/static/css", http.FileServer(http.Dir(filepath.Join(RootPath, "static/css")))))
+	http.Handle("/static/js/", http.StripPrefix("/static/js", http.FileServer(http.Dir(filepath.Join(RootPath, "static/js")))))
 }
 
+// startHTTPServer starts service using http scheme
 func startHTTPServer(ch chan<- bool) {
 	server := http.Server{
 		Addr: ":80",
@@ -49,6 +60,7 @@ func startHTTPServer(ch chan<- bool) {
 	ch <- true
 }
 
+// startHTTPSServer starts service using https scheme
 func startHTTPSServer(ch chan<- bool) {
 	server := http.Server{
 		Addr: ":443",
@@ -58,10 +70,13 @@ func startHTTPSServer(ch chan<- bool) {
 	ch <- true
 }
 
+// main is the entrance of the program
 func main() {
-	appChatroom.Run()
 	registerHandlers()
-	ch := make(chan bool)
+
+	appChatroom.Run() // run the chatroom app
+
+	ch := make(chan bool) // a channel used to get errors
 	defer close(ch)
 	go startHTTPServer(ch)
 	go startHTTPSServer(ch)

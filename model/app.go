@@ -11,8 +11,8 @@ type App struct {
 }
 
 // NewApp returns a new instance of App
-func NewApp(id int, name, intro, url string) App {
-	return App{
+func NewApp(id int, name, intro, url string) *App {
+	return &App{
 		ID:    id,
 		Name:  name,
 		Intro: template.HTML(intro),
