@@ -70,3 +70,9 @@ func handleAppChatroomWs(w http.ResponseWriter, r *http.Request) {
 	}
 	appChatroom.NewClient(conn)
 }
+
+func handleAppTranslator(w http.ResponseWriter, r *http.Request) {
+	templates := parseTemplates("layout.html", "app/translator.html")
+	writeHead(templates, w, "Translator", "layout", "app/translator")
+	templates.ExecuteTemplate(w, "layout", nil)
+}

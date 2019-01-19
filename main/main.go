@@ -35,6 +35,7 @@ func init() {
 		log.Fatalln(err)
 	}
 	apps = append(apps, model.NewApp(1, "Chatroom", "A simple chatroom.", "chatroom"))
+	apps = append(apps, model.NewApp(2, "Translator", "A translator which supports translation between English, Japanese and Chinese.", "translator"))
 	appChatroom = chatroom.New()
 }
 
@@ -46,6 +47,7 @@ func registerHandlers() {
 	http.HandleFunc("/app/", handleApp)
 	http.HandleFunc("/app/chatroom/", handleAppChatroom)
 	http.HandleFunc("/app/chatroom/ws", handleAppChatroomWs)
+	http.HandleFunc("/app/translator/", handleAppTranslator)
 	http.Handle("/static/css/", http.StripPrefix("/static/css", http.FileServer(http.Dir(filepath.Join(RootPath, "static/css")))))
 	http.Handle("/static/js/", http.StripPrefix("/static/js", http.FileServer(http.Dir(filepath.Join(RootPath, "static/js")))))
 }
