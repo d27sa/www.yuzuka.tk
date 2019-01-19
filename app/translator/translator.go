@@ -52,7 +52,7 @@ func Translate(engine int, from, to, text string) string {
 }
 
 func googleTranslate(from, to, text string) string {
-	reqURL := fmt.Sprintf("http://translate.google.cn/translate_a/single?client=gtx&sl=%s&tl=%s&dt=t&q=%s", from, to, url.QueryEscape(text))
+	reqURL := fmt.Sprintf("http://translate.google.com/translate_a/single?client=gtx&sl=%s&tl=%s&dt=t&q=%s", from, to, url.QueryEscape(text))
 	resp, err := http.Get(reqURL)
 	if err != nil {
 		log.Panicln(err)
