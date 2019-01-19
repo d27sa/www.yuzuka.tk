@@ -48,6 +48,7 @@ func registerHandlers() {
 	http.HandleFunc("/app/chatroom/", handleAppChatroom)
 	http.HandleFunc("/app/chatroom/ws", handleAppChatroomWs)
 	http.HandleFunc("/app/translator/", handleAppTranslator)
+	http.HandleFunc("/app/translator/ajax", handleAppTranslatorAjax)
 	http.Handle("/static/css/", http.StripPrefix("/static/css", http.FileServer(http.Dir(filepath.Join(RootPath, "static/css")))))
 	http.Handle("/static/js/", http.StripPrefix("/static/js", http.FileServer(http.Dir(filepath.Join(RootPath, "static/js")))))
 }

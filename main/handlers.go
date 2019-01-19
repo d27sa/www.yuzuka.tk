@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/d27sa/www.yuzuka.tk/app/translator"
 	"github.com/d27sa/www.yuzuka.tk/model"
 	"github.com/gorilla/websocket"
 )
@@ -59,7 +60,7 @@ func handleAppChatroom(w http.ResponseWriter, r *http.Request) {
 	templates := parseTemplates("layout.html", "app/chatroom.html")
 	writeHead(templates, w, "Chatroom", "layout", "app/chatroom")
 	templates.ExecuteTemplate(w, "layout", nil)
-	writeScript(templates, w, "chatroom")
+	writeScript(templates, w, "app/chatroom")
 }
 
 func handleAppChatroomWs(w http.ResponseWriter, r *http.Request) {
@@ -75,4 +76,13 @@ func handleAppTranslator(w http.ResponseWriter, r *http.Request) {
 	templates := parseTemplates("layout.html", "app/translator.html")
 	writeHead(templates, w, "Translator", "layout", "app/translator")
 	templates.ExecuteTemplate(w, "layout", nil)
+	writeScript(templates, w, "app/translator")
+}
+
+func handleAppTranslatorAjax(w http.ResponseWriter, r *http.Request) {
+	text := r.FormValue("text")
+	from := r.FormValue("from")
+	to := r.FormValue("to")
+	trans := translator.Translate(translator.Google, from, to, text)
+	w.Write([]byte(trans))
 }
