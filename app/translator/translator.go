@@ -1,6 +1,7 @@
 package translator
 
 import (
+	"compress/gzip"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -52,15 +53,29 @@ func Translate(engine int, from, to, text string) string {
 }
 
 func googleTranslate(from, to, text string) string {
-	reqURL := fmt.Sprintf("http://translate.google.com/translate_a/single?client=gtx&sl=%s&tl=%s&dt=t&q=%s", from, to, url.QueryEscape(text))
-	resp, err := http.Get(reqURL)
+	reqURL := fmt.Sprintf("http://translate.google.cn/translate_a/single?client=gtx&sl=%s&tl=%s&dt=t&q=%s", from, to, url.QueryEscape(text))
+	req, err := http.NewRequest(http.MethodGet, reqURL, nil)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return ""
 	}
-	body, err := ioutil.ReadAll(resp.Body)
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
+	req.Header.Set("Accept-Encoding", "gzip")
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		log.Panicln(err)
+		log.Println(err)
+		return ""
+	}
+	defer resp.Body.Close()
+	reader, err := gzip.NewReader(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return ""
+	}
+	defer reader.Close()
+	body, err := ioutil.ReadAll(reader)
+	if err != nil {
+		log.Println(err)
 		return ""
 	}
 	jsonText := string(body)
