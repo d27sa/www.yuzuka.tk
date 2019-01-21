@@ -80,9 +80,15 @@ func handleAppTranslator(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleAppTranslatorAjax(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
 	text := r.FormValue("text")
 	from := r.FormValue("from")
 	to := r.FormValue("to")
-	trans := translator.Translate(translator.Google, from, to, text)
-	w.Write([]byte(trans))
+	engines := r.Form["engine"]
+	trans, err := translator.Translate(from, to, text, engines)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	w.Write(trans)
 }

@@ -3,6 +3,15 @@ h1{
 }
 
 textarea{
-    width: 1174px;
+    width: 1168px;
+    min-height: 100px;
+    font-size: 16px;
+    padding: 5px;
     display: block;
+}
+
+span.engine{
+    font-weight: bold;
+    margin-right: 10px;
+    color: dimgrey;
 }

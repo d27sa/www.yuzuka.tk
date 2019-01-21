@@ -1,6 +1,9 @@
 {{ define "content" }}
 <h1>Translator</h1>
 <form>
+    Engine: <input type="checkbox" name="engine" value="google" checked="checked" />Google 
+    <input type="checkbox" name="engine" value="baidu"  />Baidu
+    <br />
     From: <select name="from">
         <option value="auto">Auto</option>
         <option value="en">English</option>
@@ -9,10 +12,10 @@
         <option value="zh-CN">Chinese</option>
     </select>
     To: <select name="to">
-            <option value="en">English</option>
-            <option value="ja">Japanese</option>
-            <option value="ko">Korean</option>
-            <option value="zh-CN">Chinese</option>
+        <option value="en">English</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+        <option value="zh-CN">Chinese</option>
     </select>
     <textarea name="text" id="text"></textarea>
     <input type="submit">
