@@ -106,7 +106,7 @@ func Translate(from, to, text string, engines []string) ([]byte, error) {
 
 // googleTranslate translates the text using google translate
 func googleTranslate(from, to, text string) string {
-	reqURL := fmt.Sprintf("http://translate.google.cn/translate_a/single?client=gtx&sl=%s&tl=%s&dt=t&q=%s", from, to, url.QueryEscape(text))
+	reqURL := fmt.Sprintf("http://translate.google.com/translate_a/single?client=gtx&sl=%s&tl=%s&dt=t&q=%s", from, to, url.QueryEscape(text))
 	req, err := http.NewRequest(http.MethodGet, reqURL, nil)
 	if err != nil {
 		log.Println(err)
