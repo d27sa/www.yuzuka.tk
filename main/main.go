@@ -43,6 +43,9 @@ func init() {
 func registerHandlers() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/register", handleRegister)
+	http.HandleFunc("/register/ajax", handleRegisterAjax)
+	http.HandleFunc("/login", handleLogin)
+	http.HandleFunc("/login/ajax", handleLoginAjax)
 	http.HandleFunc("/about/", handleAbout)
 	http.HandleFunc("/app/", handleApp)
 	http.HandleFunc("/app/chatroom/", handleAppChatroom)

@@ -15,6 +15,17 @@ type head struct {
 	CSS   []string
 }
 
+type registerInfo struct {
+	Username string
+	Email    string
+	Password string
+}
+
+type loginInfo struct {
+	Username string
+	Password string
+}
+
 func getRootPath(root string) (string, error) {
 	wd, _ := os.Getwd()
 	i := strings.Index(wd, root)

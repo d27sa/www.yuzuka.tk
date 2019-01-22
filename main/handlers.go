@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -36,10 +38,55 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 		password := r.FormValue("password")
 		user := model.User{Username: username, Email: email, Password: password}
 		templates.ExecuteTemplate(w, "layout", &user)
+		writeScript(templates, w, "register")
 		return
 	}
 	templates.ExecuteTemplate(w, "layout", nil)
-	writeScript(templates, w)
+	writeScript(templates, w, "register")
+}
+
+func handleRegisterAjax(w http.ResponseWriter, r *http.Request) {
+	info := &registerInfo{}
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = json.Unmarshal(body, info)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	rt := fmt.Sprintf("Hello, %s! Your email is %s, and your password is %s, right?", info.Username, info.Email, info.Password)
+	w.Write([]byte(rt))
+}
+
+func handleLogin(w http.ResponseWriter, r *http.Request) {
+	templates := parseTemplates("layout.html", "login.html")
+	writeHead(templates, w, "Login", "layout", "login")
+	templates.ExecuteTemplate(w, "layout", nil)
+	writeScript(templates, w, "login")
+}
+
+func handleLoginAjax(w http.ResponseWriter, r *http.Request) {
+	info := &loginInfo{}
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = json.Unmarshal(body, info)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	var rt string
+	if info.Username == "admin" && info.Password == "kousuke" {
+		rt = "Login succeeded."
+	} else {
+		rt = "Login failed."
+	}
+	w.Write([]byte(rt))
 }
 
 func handleAbout(w http.ResponseWriter, r *http.Request) {
