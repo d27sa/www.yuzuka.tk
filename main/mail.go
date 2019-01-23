@@ -9,10 +9,11 @@ import (
 )
 
 var (
-	localMailAddr     = "kousuke@gmx.com"
-	localMailPassword = "kousuke.go"
-	localMailHost     = "mail.gmx.com"
-	mailAuth          = smtp.PlainAuth("", localMailAddr, localMailPassword, localMailHost)
+	localMailAddr       = "kousuke@gmx.com"
+	localMailPassword   = "kousuke.go"
+	localMailHost       = "mail.gmx.com"
+	localMailServerAddr = "mail.gmx.com:587"
+	mailAuth            = smtp.PlainAuth("", localMailAddr, localMailPassword, localMailHost)
 )
 
 func mailTest() {
@@ -35,6 +36,6 @@ func sendCheckMail(addr string) (int, error) {
 	to := []string{addr}
 	msgStr := fmt.Sprintf("To: %s\r\nSubject: Check code from www.yuzuka.tk\r\n\r\nThe code is %s.\r\n", addr, codeStr)
 	msg := []byte(msgStr)
-	err := smtp.SendMail("smtp.mail.yahoo.co.jp:587", mailAuth, "d27sa@yahoo.co.jp", to, msg)
+	err := smtp.SendMail(localMailServerAddr, mailAuth, localMailAddr, to, msg)
 	return code, err
 }
