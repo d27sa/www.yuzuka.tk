@@ -8,8 +8,15 @@ import (
 	"strconv"
 )
 
+var (
+	localMailAddr     = "kousuke@gmx.com"
+	localMailPassword = "kousuke.go"
+	localMailHost     = "mail.gmx.com"
+	mailAuth          = smtp.PlainAuth("", localMailAddr, localMailPassword, localMailHost)
+)
+
 func mailTest() {
-	auth := smtp.PlainAuth("", "kousuke@gmx.com", "kousuke.go", "mail.gmx.com")
+	auth := smtp.PlainAuth("", localMailAddr, localMailPassword, localMailHost)
 	to := []string{"erciyuangd@163.com"}
 	msg := []byte("To: erciyuangd@163.com\r\n" +
 		"Subject: こんにちは！\r\n" +
@@ -25,10 +32,9 @@ func mailTest() {
 func sendCheckMail(addr string) (int, error) {
 	code := rand.Intn(10000)
 	codeStr := strconv.Itoa(code)
-	auth := smtp.PlainAuth("", "d27sa@yahoo.co.jp", "zhukm1997", "smtp.mail.yahoo.co.jp")
 	to := []string{addr}
 	msgStr := fmt.Sprintf("To: %s\r\nSubject: Check code from www.yuzuka.tk\r\n\r\nThe code is %s.\r\n", addr, codeStr)
 	msg := []byte(msgStr)
-	err := smtp.SendMail("smtp.mail.yahoo.co.jp:587", auth, "d27sa@yahoo.co.jp", to, msg)
+	err := smtp.SendMail("smtp.mail.yahoo.co.jp:587", mailAuth, "d27sa@yahoo.co.jp", to, msg)
 	return code, err
 }

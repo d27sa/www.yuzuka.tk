@@ -78,7 +78,10 @@ func startHTTPSServer(ch chan<- bool) {
 
 // main is the entrance of the program
 func main() {
-	mailTest()
+	_, err := sendCheckMail("1215887603@qq.com")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// registerHandlers()
 
