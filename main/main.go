@@ -78,15 +78,17 @@ func startHTTPSServer(ch chan<- bool) {
 
 // main is the entrance of the program
 func main() {
-	registerHandlers()
+	mailTest()
 
-	appChatroom.Run() // run the chatroom app
+	// registerHandlers()
 
-	ch := make(chan bool) // a channel used to get errors
-	defer close(ch)
-	go startHTTPServer(ch)
-	go startHTTPSServer(ch)
-	<-ch
-	<-ch
-	log.Fatal("Servers stopped with errors.")
+	// appChatroom.Run() // run the chatroom app
+
+	// ch := make(chan bool) // a channel used to get errors
+	// defer close(ch)
+	// go startHTTPServer(ch)
+	// go startHTTPSServer(ch)
+	// <-ch
+	// <-ch
+	// log.Fatal("Servers stopped with errors.")
 }
