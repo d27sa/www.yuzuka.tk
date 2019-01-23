@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/d27sa/www.yuzuka.tk/app/translator"
 	"github.com/d27sa/www.yuzuka.tk/model"
@@ -45,7 +46,7 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 	writeScript(templates, w, "register")
 }
 
-func handleRegisterAjax(w http.ResponseWriter, r *http.Request) {
+func handleRegisterAjaxRegister(w http.ResponseWriter, r *http.Request) {
 	info := &registerInfo{}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -57,8 +58,34 @@ func handleRegisterAjax(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	rt := fmt.Sprintf("Hello, %s! Your email is %s, and your password is %s, right?", info.Username, info.Email, info.Password)
+	var rt string
+	if trueCode, ok := verificationCode[info.Email]; ok && info.Vericode == trueCode {
+		rt = fmt.Sprintf("Hello, %s! Your email is %s, and your password is %s, right?", info.Username, info.Email, info.Password)
+		delete(verificationCode, info.Email)
+	} else {
+		rt = "Verification failed."
+	}
 	w.Write([]byte(rt))
+}
+
+func handleRegisterAjaxVericode(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	addr := string(body)
+	code, err := sendVerificationMail(addr)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	verificationCode[addr] = code
+	go func() {
+		time.Sleep(5 * time.Minute)
+		delete(verificationCode, addr)
+	}()
+	w.WriteHeader(200)
 }
 
 func handleLogin(w http.ResponseWriter, r *http.Request) {

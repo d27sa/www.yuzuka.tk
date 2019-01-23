@@ -19,6 +19,7 @@ type registerInfo struct {
 	Username string
 	Email    string
 	Password string
+	Vericode string
 }
 
 type loginInfo struct {

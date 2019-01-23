@@ -2,8 +2,10 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"net/http"
 	"path/filepath"
+	"time"
 
 	"github.com/d27sa/www.yuzuka.tk/model"
 
@@ -19,6 +21,8 @@ var apps []*model.App
 // appChatroom represents a running chatroom app
 var appChatroom *chatroom.Chatroom
 
+var verificationCode map[string]string
+
 const (
 	// ROOT represents the directory name of the website root
 	ROOT = "www.yuzuka.tk"
@@ -29,6 +33,8 @@ const (
 
 // init does some initial work
 func init() {
+	rand.Seed(time.Now().UnixNano())
+	verificationCode = make(map[string]string)
 	var err error
 	RootPath, err = getRootPath(ROOT)
 	if err != nil {
@@ -43,7 +49,8 @@ func init() {
 func registerHandlers() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/register", handleRegister)
-	http.HandleFunc("/register/ajax", handleRegisterAjax)
+	http.HandleFunc("/register/ajax/register", handleRegisterAjaxRegister)
+	http.HandleFunc("/register/ajax/vericode", handleRegisterAjaxVericode)
 	http.HandleFunc("/login", handleLogin)
 	http.HandleFunc("/login/ajax", handleLoginAjax)
 	http.HandleFunc("/about/", handleAbout)
@@ -78,20 +85,15 @@ func startHTTPSServer(ch chan<- bool) {
 
 // main is the entrance of the program
 func main() {
-	_, err := sendCheckMail("1215887603@qq.com")
-	if err != nil {
-		log.Fatal(err)
-	}
+	registerHandlers()
 
-	// registerHandlers()
+	appChatroom.Run() // run the chatroom app
 
-	// appChatroom.Run() // run the chatroom app
-
-	// ch := make(chan bool) // a channel used to get errors
-	// defer close(ch)
-	// go startHTTPServer(ch)
-	// go startHTTPSServer(ch)
-	// <-ch
-	// <-ch
-	// log.Fatal("Servers stopped with errors.")
+	ch := make(chan bool) // a channel used to get errors
+	defer close(ch)
+	go startHTTPServer(ch)
+	go startHTTPSServer(ch)
+	<-ch
+	<-ch
+	log.Fatal("Servers stopped with errors.")
 }
