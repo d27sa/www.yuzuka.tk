@@ -9,14 +9,14 @@ import (
 )
 
 func mailTest() {
-	auth := smtp.PlainAuth("", "d27sa@yahoo.co.jp", "zhukm1997", "smtp.mail.yahoo.co.jp")
+	auth := smtp.PlainAuth("", "kousuke@gmx.com", "kousuke.go", "mail.gmx.com")
 	to := []string{"erciyuangd@163.com"}
 	msg := []byte("To: erciyuangd@163.com\r\n" +
 		"Subject: こんにちは！\r\n" +
 		"date: Wed, 23 Jan 2019 20:40:00 +0800\r\n" +
 		"\r\n" +
 		"今どこ？\r\n")
-	err := smtp.SendMail("smtp.mail.yahoo.co.jp:587", auth, "d27sa@yahoo.co.jp", to, msg)
+	err := smtp.SendMail("mail.gmx.com:587", auth, "kousuke@gmx.com", to, msg)
 	if err != nil {
 		log.Fatal(err)
 	}
