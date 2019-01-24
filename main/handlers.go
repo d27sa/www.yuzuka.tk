@@ -72,12 +72,14 @@ func handleRegisterAjaxVericode(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(400)
 		return
 	}
 	addr := string(body)
-	code, err := sendVerificationMail(addr)
+	code, err := serverMailers.sendVerificationMail(addr)
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(500)
 		return
 	}
 	verificationCode[addr] = code
@@ -114,6 +116,13 @@ func handleLoginAjax(w http.ResponseWriter, r *http.Request) {
 		rt = "Login failed."
 	}
 	w.Write([]byte(rt))
+}
+
+func handleBlog(w http.ResponseWriter, r *http.Request) {
+	templates := parseTemplates("layout.html", "blog.html")
+	writeHead(templates, w, "Blog", "layout", "blog")
+	templates.ExecuteTemplate(w, "layout", nil)
+	writeScript(templates, w, "blog")
 }
 
 func handleAbout(w http.ResponseWriter, r *http.Request) {

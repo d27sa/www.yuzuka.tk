@@ -7,6 +7,9 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/d27sa/www.yuzuka.tk/app/chatroom"
+	"github.com/d27sa/www.yuzuka.tk/model"
 )
 
 // head represents the head part of a html5 file
@@ -46,7 +49,13 @@ func writeScript(t *template.Template, w http.ResponseWriter, js ...string) erro
 
 func parseTemplates(filenames ...string) *template.Template {
 	for i := range filenames {
-		filenames[i] = filepath.Join(RootPath, "templates", filenames[i])
+		filenames[i] = filepath.Join(rootPath, "templates", filenames[i])
 	}
 	return template.Must(template.ParseFiles(filenames...))
+}
+
+func initApps() {
+	apps = append(apps, model.NewApp(1, "Chatroom", "A simple chatroom.", "chatroom"))
+	apps = append(apps, model.NewApp(2, "Translator", "A translator which supports translation between English, Japanese and Chinese.", "translator"))
+	appChatroom = chatroom.New()
 }

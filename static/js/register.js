@@ -40,30 +40,37 @@ window.onload = function () {
     password.setAttribute('placeholder', 'password');
     innerdiv.appendChild(password);
     innerdiv.appendChild(document.createElement('br'));
-    var vclabel=document.createElement('label');
+    var vclabel = document.createElement('label');
     vclabel.appendChild(document.createTextNode('Verification Code:'));
     innerdiv.appendChild(vclabel);
-    var vericode=document.createElement('input');
-    vericode.setAttribute('name','vericode');
-    vericode.setAttribute('type','text');
-    vericode.setAttribute('placeholder','0000');
+    var vericode = document.createElement('input');
+    vericode.setAttribute('name', 'vericode');
+    vericode.setAttribute('type', 'text');
+    vericode.setAttribute('placeholder', '0000');
     innerdiv.appendChild(vericode);
     innerdiv.appendChild(document.createElement('br'));
-    var vcbtn=document.createElement('button');
+    var vcbtn = document.createElement('button');
     vcbtn.appendChild(document.createTextNode('Get Verification Code'));
-    vcbtn.onclick=function(){
+    vcbtn.onclick = function () {
         var req = newRequest();
         req.open('POST', document.location.origin + '/register/ajax/vericode');
-        req.onreadystatechange=function(){
-            if (req.readyState==4&&req.status==200){
+        req.timeout=30000;
+        req.ontimeout=function(){
+            alert('Failed to send verification code.');
+        }
+        req.onload = function () {
+            if (req.status == 200) {
                 alert('Verification code has been sent to your email address. Please check it now.');
             }
-        }
+            else {
+                alert('Failed to send verification code.');
+            }
+        };
         req.send(email.value);
         return false;
     };
-    innerdiv.appendChild(vcbtn);
-    innerdiv.appendChild(document.createElement('br'));
+    form.appendChild(vcbtn);
+    form.appendChild(document.createElement('br'));
     var submit = document.createElement('input');
     submit.setAttribute('type', 'submit');
     form.appendChild(submit);

@@ -20,6 +20,8 @@ h1{
 
 form div{
     text-align: right;
+    display: inline-block;
+    margin-right: 5px;
 }
 
 form div input{
