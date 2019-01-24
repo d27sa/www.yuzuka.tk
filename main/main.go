@@ -9,8 +9,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/d27sa/www.yuzuka.tk/model"
-
+	"github.com/d27sa/www.yuzuka.tk/app"
 	"github.com/d27sa/www.yuzuka.tk/app/chatroom"
 )
 
@@ -18,13 +17,15 @@ var (
 	// rootPath represent the full path of the website root
 	rootPath string
 	// apps stores all available apps
-	apps []*model.App
+	apps []*app.App
 	// appChatroom represents a running chatroom app
 	appChatroom *chatroom.Chatroom
 	// verificationCode maps email address to verification code used for registeration
 	verificationCode map[string]string
 	// serverMailers is the mailers used to send mail to users
 	serverMailers *mailers
+	// temp -
+	postList []*postIndex
 )
 
 const (
@@ -62,6 +63,9 @@ func registerHandlers() {
 	http.HandleFunc("/app/chatroom/ws", handleAppChatroomWs)
 	http.HandleFunc("/app/translator/", handleAppTranslator)
 	http.HandleFunc("/app/translator/ajax", handleAppTranslatorAjax)
+	http.HandleFunc("/app/todolist/", handleAppTodoList)
+	http.HandleFunc("/app/todolist/ajax/add", handleAppTodoListAjaxAdd)
+	http.HandleFunc("/app/todolist/ajax/delete", handleAppTodoListAjaxDelete)
 	http.Handle("/static/css/", http.StripPrefix("/static/css", http.FileServer(http.Dir(filepath.Join(rootPath, "static/css")))))
 	http.Handle("/static/js/", http.StripPrefix("/static/js", http.FileServer(http.Dir(filepath.Join(rootPath, "static/js")))))
 }

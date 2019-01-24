@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/d27sa/www.yuzuka.tk/app"
 	"github.com/d27sa/www.yuzuka.tk/app/chatroom"
-	"github.com/d27sa/www.yuzuka.tk/model"
 )
 
 // head represents the head part of a html5 file
@@ -55,7 +55,8 @@ func parseTemplates(filenames ...string) *template.Template {
 }
 
 func initApps() {
-	apps = append(apps, model.NewApp(1, "Chatroom", "A simple chatroom.", "chatroom"))
-	apps = append(apps, model.NewApp(2, "Translator", "A translator which supports translation between English, Japanese and Chinese.", "translator"))
+	apps = append(apps, app.NewApp(1, "Chatroom", "A simple chatroom.", "chatroom"))
+	apps = append(apps, app.NewApp(2, "Translator", "A translator which supports translation between English, Japanese and Chinese.", "translator"))
+	apps = append(apps, app.NewApp(3, "Todo List", "A todo list reminds you what to do.", "todolist"))
 	appChatroom = chatroom.New()
 }

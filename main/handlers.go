@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/d27sa/www.yuzuka.tk/app/todolist"
 	"github.com/d27sa/www.yuzuka.tk/app/translator"
 	"github.com/d27sa/www.yuzuka.tk/model"
 	"github.com/gorilla/websocket"
@@ -121,7 +122,7 @@ func handleLoginAjax(w http.ResponseWriter, r *http.Request) {
 func handleBlog(w http.ResponseWriter, r *http.Request) {
 	templates := parseTemplates("layout.html", "blog.html")
 	writeHead(templates, w, "Blog", "layout", "blog")
-	templates.ExecuteTemplate(w, "layout", nil)
+	templates.ExecuteTemplate(w, "layout", postList)
 	writeScript(templates, w, "blog")
 }
 
@@ -174,4 +175,18 @@ func handleAppTranslatorAjax(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write(trans)
+}
+
+func handleAppTodoList(w http.ResponseWriter, r *http.Request) {
+	templates := parseTemplates("layout.html", "app/todolist.html")
+	writeHead(templates, w, "Todo List", "layout", "app/todolist")
+	templates.ExecuteTemplate(w, "layout", todolist.List)
+	writeScript(templates, w, "app/todolist")
+}
+
+func handleAppTodoListAjaxAdd(w http.ResponseWriter, r *http.Request) {
+
+}
+func handleAppTodoListAjaxDelete(w http.ResponseWriter, r *http.Request) {
+
 }
