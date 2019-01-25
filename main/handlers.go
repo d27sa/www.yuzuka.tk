@@ -180,13 +180,29 @@ func handleAppTranslatorAjax(w http.ResponseWriter, r *http.Request) {
 func handleAppTodoList(w http.ResponseWriter, r *http.Request) {
 	templates := parseTemplates("layout.html", "app/todolist.html")
 	writeHead(templates, w, "Todo List", "layout", "app/todolist")
-	templates.ExecuteTemplate(w, "layout", todolist.List)
+	a := make([]string, todolist.List.Len())
+	f := todolist.List.Front()
+	for i := 0; i < todolist.List.Len(); i++ {
+		a[i] = f.Value.(string)
+		f = f.Next()
+	}
+	templates.ExecuteTemplate(w, "layout", a)
 	writeScript(templates, w, "app/todolist")
 }
 
 func handleAppTodoListAjaxAdd(w http.ResponseWriter, r *http.Request) {
 
 }
-func handleAppTodoListAjaxDelete(w http.ResponseWriter, r *http.Request) {
 
+func handleAppTodoListAjaxDelete(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+	todo := string(body)
+	todolist.Del(todolist.List, todo)
+	w.WriteHeader(200)
 }
