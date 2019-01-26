@@ -66,6 +66,8 @@ func registerHandlers() {
 	http.HandleFunc("/app/todolist/", handleAppTodoList)
 	http.HandleFunc("/app/todolist/ajax/add", handleAppTodoListAjaxAdd)
 	http.HandleFunc("/app/todolist/ajax/delete", handleAppTodoListAjaxDelete)
+	http.HandleFunc("/app/todolist/ajax/moveup", handleAppTodoListAjaxMoveUp)
+	http.HandleFunc("/app/todolist/ajax/movedown", handleAppTodoListAjaxMoveDown)
 	http.Handle("/static/css/", http.StripPrefix("/static/css", http.FileServer(http.Dir(filepath.Join(rootPath, "static/css")))))
 	http.Handle("/static/js/", http.StripPrefix("/static/js", http.FileServer(http.Dir(filepath.Join(rootPath, "static/js")))))
 }

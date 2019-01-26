@@ -1,9 +1,9 @@
 {{ define "content" }}
 <h1>Todo List</h1>
 <p>[<a href="#">new</a>/<a href="#">clear</a>]</p>
-<ul>
+<ul id="todolist">
     {{ range . }}
-    <li><span class="todo">{{ . }}</span>[<a href="ajax/delete" class="delete">✗</a>/<a href="#" class="moveup">↑</a>/<a href="#" class="movedown">↓</a>]</li>
+    <li><span class="todo">{{ . }}</span>[<a href="ajax/delete" class="delete">✗</a>/<a href="ajax/moveup" class="moveup">↑</a>/<a href="ajax/movedown" class="movedown">↓</a>]</li>
     {{ end }}
 </ul>
 {{ end }}

@@ -164,6 +164,11 @@ func handleAppTranslator(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleAppTranslatorAjax(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	if r.Method != http.MethodPost {
+		w.WriteHeader(404)
+		return
+	}
 	r.ParseForm()
 	text := r.FormValue("text")
 	from := r.FormValue("from")
@@ -196,6 +201,10 @@ func handleAppTodoListAjaxAdd(w http.ResponseWriter, r *http.Request) {
 
 func handleAppTodoListAjaxDelete(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+	if r.Method != http.MethodPost {
+		w.WriteHeader(404)
+		return
+	}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Println(err)
@@ -204,5 +213,39 @@ func handleAppTodoListAjaxDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	todo := string(body)
 	todolist.Del(todolist.List, todo)
+	w.WriteHeader(200)
+}
+
+func handleAppTodoListAjaxMoveUp(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	if r.Method != http.MethodPost {
+		w.WriteHeader(404)
+		return
+	}
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+	todo := string(body)
+	todolist.Move(todolist.List, todo, todolist.Up)
+	w.WriteHeader(200)
+}
+
+func handleAppTodoListAjaxMoveDown(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	if r.Method != http.MethodPost {
+		w.WriteHeader(404)
+		return
+	}
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(500)
+		return
+	}
+	todo := string(body)
+	todolist.Move(todolist.List, todo, todolist.Down)
 	w.WriteHeader(200)
 }

@@ -2,8 +2,12 @@ package todolist
 
 import (
 	"container/list"
-	"fmt"
 	"strconv"
+)
+
+const (
+	Up   = uint8(0)
+	Down = uint8(1)
 )
 
 // List stores things to do - temp
@@ -19,13 +23,36 @@ func init() {
 
 // Del deletes a string from a list
 func Del(l *list.List, s string) {
-	f := l.Front()
-	for f != nil {
-		if f.Value.(string) == s {
-			l.Remove(f)
-			fmt.Println(s + " deleted.")
+	e := l.Front()
+	for e != nil {
+		if e.Value.(string) == s {
+			l.Remove(e)
 			return
 		}
-		f = f.Next()
+		e = e.Next()
+	}
+}
+
+func Move(l *list.List, s string, dir uint8) {
+	e := l.Front()
+	for e != nil {
+		if e.Value.(string) == s {
+			if dir == Up {
+				if e == l.Front() {
+					return
+				}
+				p := e.Prev()
+				l.Remove(e)
+				l.InsertBefore(s, p)
+			} else {
+				if e.Next() == nil {
+					return
+				}
+				n := e.Next()
+				l.Remove(e)
+				l.InsertAfter(s, n)
+			}
+		}
+		e = e.Next()
 	}
 }
